@@ -69,11 +69,12 @@ const signOut = createAsyncThunk('signOut', async(token) => {
     }
 })
 
+
 const userAction = {
     signIn,
     signToken,
     signOut,
-    signUp
+    signUp,
 }
 
 export default userAction

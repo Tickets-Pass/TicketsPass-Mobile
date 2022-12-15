@@ -3,6 +3,7 @@ import userActions from "../actions/userAction";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const initialState = {
+    user:'',
     photo:'',
     name:'',
     logged:false,
@@ -15,14 +16,7 @@ const initialState = {
 
 const userReducer = createReducer(initialState,(item)=>{
     item
-        .addCase(userActions.signIn.pending, (state, action) => {
-            return {
-                ...state,
-                load:true,
-                error:false
-            }
-        })
-        .addCase(userActions.signIn.fulfilled,(state,action)=>{
+.addCase(userActions.signIn.fulfilled,(state,action)=>{
             const {success,response} = action.payload
             if (success){
                 let {user,token} = response.response
@@ -31,11 +25,12 @@ const userReducer = createReducer(initialState,(item)=>{
                 }}))
                 let newState = {
                     ...state,
+                    user:user,
                     photo:user.photo,
-                    name:user.name,
+                    name:user.name + ' '+ user.lastName,
                     logged:true,
                     role:user.role,
-                    id: user._id,
+                    id: user.id,
                     token:token,
                     load:false,
                     error:false
@@ -49,31 +44,18 @@ const userReducer = createReducer(initialState,(item)=>{
                 return newState
             }
         })
-        .addCase(userActions.signIn.rejected, (state, action) => {
-            return {
-                ...state,
-                load:false,
-                error:true
-            }
-        })
-        .addCase(userActions.signToken.pending, (state, action) => {
-            return {
-                ...state,
-                load:true,
-                error:false
-            }
-        }) 
+
         .addCase(userActions.signToken.fulfilled, (state, action) => {
             const {success,response} = action.payload
             if (success){
                 let {user,token} = response
                 let newState = {
                     ...state,
-                    name:user.user.name,
+                    name:user.user.name ,
                     photo:user.user.photo,
                     logged:true,
                     role:user.user.role,
-                    id:user.user._id,
+                    id:user.user.id,
                     token:token,
                     load:false,
                     error:false
@@ -87,20 +69,9 @@ const userReducer = createReducer(initialState,(item)=>{
                 return newState
             }
         })
-        .addCase(userActions.signToken.rejected, (state, action) => {
-            return {
-                ...state,
-                load:false,
-                error:true
-            }
-        })
-        .addCase(userActions.signOut.pending, (state, action) => {
-            return {
-                ...state,
-                load:true,
-                error:false
-            }
-        })
+        
+
+
         .addCase(userActions.signOut.fulfilled, (state, action) => {
             const {success,response} = action.payload
             if(success){
@@ -125,13 +96,7 @@ const userReducer = createReducer(initialState,(item)=>{
                 return newState
             }
         })
-        .addCase(userActions.signOut.rejected, (state, action) => {
-            return {
-                ...state,
-                load:false,
-                error:true
-            }
-        })
+        
 })
 
 export default userReducer
