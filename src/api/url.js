@@ -1,4 +1,3 @@
-// eslint-disable-next-line
-let apiUrl = 'http://localhost:8000';
+let apiUrl = 'https://ticketspass-back.up.railway.app/api';
 
-module.exports = apiUrl;
+export default apiUrl;

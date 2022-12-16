@@ -1,15 +1,20 @@
-import { Provider} from 'react-redux';
-import { store } from './src/redux/store';
+import 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import Tab from './src/navigation/Tab';
+import Drawer from './src/navigation/Drawer';
+import { store } from './src/redux/store';
+import { Provider } from 'react-redux';
+
 
 export default function App() {
 
   return (
-    <Provider store={store}>
+    <SafeAreaView style={{flex:1}}>
       <NavigationContainer>
-        <Tab />
+        <Provider store={store}>
+          <Drawer/>
+        </Provider>
       </NavigationContainer>
-    </Provider>
+    </SafeAreaView>
   );
 }
