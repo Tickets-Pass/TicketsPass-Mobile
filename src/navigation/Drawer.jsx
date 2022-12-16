@@ -7,6 +7,7 @@ import SignUp from '../views/SignUp'
 import SignOut from '../views/SignOut'
 import { useSelector } from 'react-redux'
 import Profile from '../views/Profile'
+import Stack from './Stack'
 
 
 const DrawerNav = createDrawerNavigator()
@@ -16,7 +17,7 @@ export default function Drawer() {
 
   return (
     <DrawerNav.Navigator  screenOptions={{headerStyle:{backgroundColor:'purple'},headerTintColor:'#fff'}}  name='root'  drawerContent = {(props)=><MenuItems {...props} />} >
-        <DrawerNav.Screen  name='Home' component={Home}/>
+        <DrawerNav.Screen  name='TicketsPass' component={Stack}/>
         <DrawerNav.Screen name='Profile' initialParams={{id: id}} component={Profile}/>
         <DrawerNav.Screen  name='Sign In' component={SignIn}/>
         <DrawerNav.Screen  name='Sign Up' component={SignUp}/>
