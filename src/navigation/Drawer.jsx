@@ -26,7 +26,7 @@ export default function Drawer() {
 }
 
 const MenuItems = ({navigation})=>{
-    let { logged,photo,name} = useSelector(state => state.userReducer)
+    let { logged,photo,name,lastName} = useSelector(state => state.userReducer)
     return (
         <DrawerContentScrollView  style={{backgroundColor:'purple'}} >
         <View  style={{flexDirection:'row',justifyContent:'space-evenly',alignItems:'center',backgroundColor:'#252525',borderRadius:25,padding:5,margin:5}}>
@@ -42,7 +42,7 @@ const MenuItems = ({navigation})=>{
             <Image source={{uri:photo}} style={{width:40,height:40,borderRadius:25}}/>
             <View>
                 <Text style={{fontSize:25,fontWeight:'bold',color:'#fff',marginLeft:10}} >My Profile</Text>
-                <Text style={{fontSize:20,color:'#fff',marginLeft:10}}>{name}</Text>
+                <Text style={{fontSize:20,color:'#fff',marginLeft:10}}>{name+ ' ' +lastName}</Text>
             </View>
         </TouchableOpacity>}
         <TouchableOpacity onPress={()=> navigation.navigate('Sign Up')} style={logged?{display:'none'}:{flexDirection:'row',alignItems:'center',borderBottomColor:'#000',borderStyle:'solid',borderBottomWidth:4,borderRadius:25,padding:5,margin:5}}>
