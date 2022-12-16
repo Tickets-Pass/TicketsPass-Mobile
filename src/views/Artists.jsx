@@ -1,12 +1,10 @@
 import { Text, View } from 'react-native'
-import React, { Component } from 'react'
+import React from 'react'
 
-export default class Artists extends Component {
-  render() {
+export default function Artists() {
     return (
       <View>
         <Text>Artists</Text>
       </View>
     )
-  }
 }
