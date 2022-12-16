@@ -3,24 +3,21 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from "expo-image-picker";
-import axios from "axios";
-import apiUrl from "../api/url";
 import { useDispatch } from "react-redux";
 import userAction from "../redux/actions/userAction";
-
-
 
 export default function Profile({ navigation }) {
     let [age, setAge] = useState("");
     let [open,setOpen] = useState(false)
     let [show,setShow] = useState(false)
-    let { user,token} = useSelector((store) => store.userReducer);
+    let { user,id,token} = useSelector((store) => store.userReducer);
     const [date, setDate] = useState(new Date(user.birthDate));
     const [image, setImage] = useState(null);
     let [fName, setFName] = useState(user.name)
     let [lName, setLName] = useState(user.lastName)
     let [email, setEmail] = useState(user.email)
-
+    let dispatch = useDispatch()
+    let {updateUser,signToken} = userAction
 
     function getEdad(dateString) {
         let hoy = new Date();
@@ -43,6 +40,8 @@ export default function Profile({ navigation }) {
             setImage(result.assets[0].uri);
         }
     };
+    let fecha = new Date(user.birthDate);
+    fecha = fecha.toLocaleDateString();
     useEffect(() => {
         getEdad(fecha);
     }, []);
@@ -51,35 +50,33 @@ export default function Profile({ navigation }) {
         setShow(false);
         setDate(currentDate);
     };
-    let dato = {
-    }
-    fName !== user.name || '' && (dato.name = fName)
-    lName !== user.lastName || '' && (dato.lastName = lName)
+    let dato = {}
+    fName !== '' && (dato.name = fName)
+    lName !== ''  && (dato.lastName = lName)
     date !== user.birthDate && (dato.birthDate = date)
     image !== null && (dato.photo = image)
-    email !== user.email ||'' && (dato.email = email)
-
-    console.log(dato)
+    email !== '' && (dato.email = email)
 
     let submit= ()=>{
-        axios.patch(`${apiUrl}/auth/me/${id}`, dato)
+        let datos = {
+            id,
+            dato
+        }
+        dispatch(updateUser(datos))
+        .catch(err=>console.log('hola'+ err))
+        dispatch(signToken(token))
         Alert.alert('Was Edited')
-        
         setOpen(false)
-        setFName('')
-        setLName('')
-        setEmail('')
         navigation.navigate('Home')
       }
 
-    let fecha = new Date(user.birthDate);
-    fecha = fecha.toLocaleDateString();
+    
 
     return (
         <ScrollView style={{ backgroundColor: "#f5f5f5", flex: 1 ,padding:10}}>
             <Text style={{ fontSize: 40, fontWeight: "800", textAlign: "center", margin: 10 }}>My Profile </Text>
             {open&&<TouchableOpacity onPress={pickImage} style={style.input}>
-                <Text style={{ textAlign: "center" }}>Choose a photo</Text>
+            <Text style={{ textAlign: "center" }}>Choose a photo</Text>
             </TouchableOpacity>}
             <Image source={image?{uri:image}:{ uri: user.photo }} style={{ width: 200, height: 200, alignSelf: "center",borderRadius:25 }} />
             <Text style={style.text1}>Name {open&&<Image style={{width:20,height:20}} source={require('../../assets/editar.png')}/>}</Text>
@@ -105,7 +102,6 @@ export default function Profile({ navigation }) {
         </ScrollView>
     );
 }
-
 
 const style = StyleSheet.create({
     text1: {
