@@ -34,14 +34,14 @@ export default function SignIn({navigation}) {
 
 
     return (
-    <View style={{backgroundColor:'#ccc',flex:1,padding:10}} >
+    <View style={{backgroundColor:'#f5f5f5',flex:1,padding:10}} >
         <Text style={{fontSize:25,textAlign:'center',fontWeight:'900'}} >Sign In</Text>
         <Text style={style.text1} >User Email</Text>
         <TextInput keyboardType='email-address' value={email} onChangeText={item=>setEmail(item)} placeholder='Enter your user...' style={style.input} />
         <Text style={style.text1} >Password</Text>
         <TextInput passwordRules={true} secureTextEntry={true} placeholder='Enter your password...' value={pass} onChangeText={item=>setPass(item)} style={style.input} />
         <TouchableOpacity style={style.buton2} ><Text style={style.textbtn} onPress={submit} >Sign In</Text></TouchableOpacity>
-        <Text style={style.text2} >Don't have an Account?</Text>
+        <Text style={style.text2} >Don't you have an Account?</Text>
         <TouchableOpacity style={style.buton1} ><Text style={style.textbtn} onPress={()=>navigation.navigate('Sign Up')} >Sign UP Here!</Text></TouchableOpacity>
     </View>
     )
@@ -85,7 +85,7 @@ const style = StyleSheet.create({
         borderRadius:25,
         alignSelf:'center',
         marginTop:20,
-        borderColor:'#fff',
+        borderColor:'#aaa',
         borderWidth:3,
         padding:5
     },
@@ -96,7 +96,7 @@ const style = StyleSheet.create({
         borderRadius:25,
         alignSelf:'center',
         marginTop:50,
-        borderColor:'#fff',
+        borderColor:'#aaa',
         borderWidth:3,
         padding:5,
         marginBottom:10

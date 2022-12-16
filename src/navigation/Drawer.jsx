@@ -28,33 +28,33 @@ export default function Drawer() {
 const MenuItems = ({navigation})=>{
     let { logged,photo,name} = useSelector(state => state.userReducer)
     return (
-        <DrawerContentScrollView  style={{backgroundColor:'#aaa'}} >
+        <DrawerContentScrollView  style={{backgroundColor:'purple'}} >
         <View  style={{flexDirection:'row',justifyContent:'space-evenly',alignItems:'center',backgroundColor:'#252525',borderRadius:25,padding:5,margin:5}}>
             <Image source={require('../../assets/ticketlogorotado.png')} style={{width:50,height:50}}/>
             <Text style={{fontSize:25,fontWeight:'bold',color:'#fff'}} >Ticket Pass  </Text>
         </View>
-        <TouchableOpacity onPress={()=> navigation.navigate('Home')} style={{flexDirection:'row',alignItems:'center',borderBottomColor:'purple',borderStyle:'solid',borderBottomWidth:4,borderRadius:25,padding:5,margin:5}}>
+        <TouchableOpacity onPress={()=> navigation.navigate('Home')} style={{flexDirection:'row',alignItems:'center',borderBottomColor:'#000',borderStyle:'solid',borderBottomWidth:4,borderRadius:25,padding:5,margin:5}}>
             <Image source={require('../../assets/hogar.png')} style={{width:30,height:30,marginLeft:10}}/>
             <Text style={{fontSize:25,fontWeight:'bold',color:'#fff',marginLeft:10}} >Home </Text>
         </TouchableOpacity>
         {logged &&
-        <TouchableOpacity onPress={()=> navigation.navigate('Profile')} style={{flexDirection:'row',alignItems:'center',borderBottomColor:'purple',borderStyle:'solid',borderBottomWidth:4,borderRadius:25,padding:5,margin:5}}>
-            <Image source={{uri:photo}} style={{width:45,height:45,marginLeft:10,borderRadius:25}}/>
+        <TouchableOpacity onPress={()=> navigation.navigate('Profile')} style={{flexDirection:'row',alignItems:'center',borderBottomColor:'#000',borderStyle:'solid',borderBottomWidth:4,borderRadius:25,padding:5,margin:5}}>
+            <Image source={{uri:photo}} style={{width:40,height:40,borderRadius:25}}/>
             <View>
                 <Text style={{fontSize:25,fontWeight:'bold',color:'#fff',marginLeft:10}} >My Profile</Text>
-                <Text style={{fontSize:20}}>{name}</Text>
+                <Text style={{fontSize:20,color:'#fff',marginLeft:10}}>{name}</Text>
             </View>
         </TouchableOpacity>}
-        <TouchableOpacity onPress={()=> navigation.navigate('Sign Up')} style={logged?{display:'none'}:{flexDirection:'row',alignItems:'center',borderBottomColor:'purple',borderStyle:'solid',borderBottomWidth:4,borderRadius:25,padding:5,margin:5}}>
+        <TouchableOpacity onPress={()=> navigation.navigate('Sign Up')} style={logged?{display:'none'}:{flexDirection:'row',alignItems:'center',borderBottomColor:'#000',borderStyle:'solid',borderBottomWidth:4,borderRadius:25,padding:5,margin:5}}>
             <Image source={require('../../assets/agregar-usuario.png')} style={{width:30,height:30,marginLeft:10}}/>
             <Text style={{fontSize:25,fontWeight:'bold',color:'#fff',marginLeft:10}} >Sign Up  </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=> navigation.navigate('Sign In')} style={logged?{display:'none'}:{flexDirection:'row',alignItems:'center',borderBottomColor:'purple',borderStyle:'solid',borderBottomWidth:4,borderRadius:25,padding:5,margin:5}}>
+        <TouchableOpacity onPress={()=> navigation.navigate('Sign In')} style={logged?{display:'none'}:{flexDirection:'row',alignItems:'center',borderBottomColor:'#000',borderStyle:'solid',borderBottomWidth:4,borderRadius:25,padding:5,margin:5}}>
             <Image source={require('../../assets/ingresar.png')} style={{width:30,height:30,marginLeft:10}}/>
             <Text style={{fontSize:25,fontWeight:'bold',color:'#fff',marginLeft:10}} >Sign In </Text>
         </TouchableOpacity>
         {logged &&
-        <TouchableOpacity onPress={()=> navigation.navigate('Sign Out')} style={{flexDirection:'row',alignItems:'center',borderBottomColor:'purple',borderStyle:'solid',borderBottomWidth:4,borderRadius:25,padding:5,margin:5}}>
+        <TouchableOpacity onPress={()=> navigation.navigate('Sign Out')} style={{flexDirection:'row',alignItems:'center',borderBottomColor:'#000',borderStyle:'solid',borderBottomWidth:4,borderRadius:25,padding:5,margin:5}}>
             <Image source={require('../../assets/salida.png')} style={{width:30,height:30,marginLeft:10}}/>
             <Text style={{fontSize:25,fontWeight:'bold',color:'#fff',marginLeft:10}} >Sign Out  </Text>
         </TouchableOpacity>}

@@ -5,6 +5,7 @@ import * as ImagePicker from "expo-image-picker";
 import { useDispatch } from "react-redux";
 import userAction from "../redux/actions/userAction";
 
+
 export default function SignUp({navigation}) {
     let [show, setShow] = useState(false);
     const [date, setDate] = useState(new Date());
@@ -55,7 +56,7 @@ export default function SignUp({navigation}) {
     }
 
     return (
-        <ScrollView style={{ backgroundColor: "#ccc", flex: 1, padding: 10, paddingBottom: 50 }}>
+        <ScrollView style={{ backgroundColor: "#f5f5f5", flex: 1, padding: 10, paddingBottom: 50 }}>
             <Text style={{ fontSize: 25, textAlign: "center", fontWeight: "900" }}  >SignUp</Text>
             <Text style={style.text1}>Name</Text>
             <TextInput placeholder="Your Name..." style={style.input} value={fName} onChangeText={(item)=>setFName(item)} ></TextInput>
@@ -63,7 +64,7 @@ export default function SignUp({navigation}) {
             <TextInput placeholder="Your LastName..." style={style.input} value={lName} onChangeText={item=>setLName(item)} ></TextInput>
             <Text style={style.text1}>BirthDate</Text>
             <TouchableOpacity style={style.input} onPress={() => setShow(true)}>
-                <Text>{date.toLocaleDateString()}</Text>
+                <Text style={{textAlign:'center'}}>{date.toLocaleDateString()}</Text>
             </TouchableOpacity>
             {show && <DateTimePicker mode="date" value={date} onChange={onChange} />}
             <Text style={style.text1}>Photo</Text>
@@ -78,7 +79,7 @@ export default function SignUp({navigation}) {
             <TouchableOpacity style={style.buton2} onPress={submit} >
                 <Text style={style.textbtn}>Sign Up</Text>
             </TouchableOpacity>
-            <Text style={style.text2}>Do have an Acount?</Text>
+            <Text style={style.text2}>Do you have an Acount?</Text>
             <TouchableOpacity style={style.buton1} onPress={()=>navigation.navigate('Sign In')} >
                 <Text style={style.textbtn}>Sign In Here!</Text>
             </TouchableOpacity>
@@ -124,7 +125,7 @@ const style = StyleSheet.create({
         borderRadius: 25,
         alignSelf: "center",
         marginTop: 20,
-        borderColor: "#fff",
+        borderColor: "#aaa",
         borderWidth: 3,
         padding: 5,
         marginBottom: 100,
@@ -136,7 +137,7 @@ const style = StyleSheet.create({
         borderRadius: 25,
         alignSelf: "center",
         marginTop: 50,
-        borderColor: "#fff",
+        borderColor: "#aaa",
         borderWidth: 3,
         padding: 5,
         marginBottom: 10,
