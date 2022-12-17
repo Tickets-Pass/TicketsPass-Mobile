@@ -2,11 +2,11 @@ import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import apiUrl from "../api/url";
-import { ActivityIndicator, Button, Card, Divider, Paragraph, Title } from "react-native-paper";
+import { ActivityIndicator, Button, Divider, Paragraph, Title } from "react-native-paper";
 import { FontAwesome } from "@expo/vector-icons";
 import dateFormatter from "../utils/dateFormatter";
 
-export default function Concert({ navigation, route }) {
+export default function Concert({ route }) {
   const { id } = route.params;
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
@@ -99,14 +99,14 @@ const styles = StyleSheet.create({
   },
   categoryContent: {
     paddingHorizontal: 10,
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   categoryTitle: {
     textAlign: "center",
-    marginBottom: 15
+    marginBottom: 15,
   },
   categoryName: {
-    textTransform: 'capitalize',
+    textTransform: "capitalize",
     textDecorationLine: "underline",
   },
 });
