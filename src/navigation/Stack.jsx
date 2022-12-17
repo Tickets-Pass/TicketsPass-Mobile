@@ -3,6 +3,7 @@ import Artists from "../views/Artists";
 import Concerts from "../views/Concerts";
 import Home from "../views/Home";
 import Concert from "../views/Concert";
+import Cart from "../views/Cart";
 
 const StackNav = createNativeStackNavigator();
 
@@ -13,6 +14,7 @@ export default function Stack() {
       <StackNav.Screen name="Artists" component={Artists} />
       <StackNav.Screen name="Concerts" component={Concerts} />
       <StackNav.Screen name="Concert" component={Concert}/>
+      <StackNav.Screen name="Cart" component={Cart} />
     </StackNav.Navigator>
   );
 }
