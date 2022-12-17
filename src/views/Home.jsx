@@ -2,6 +2,7 @@ import { View, Text, ImageBackground ,Image,StyleSheet, Pressable} from 'react-n
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from 'react-native-paper';
+import CartButton from '../components/CartButton';
 
 export default function Home({navigation}) {
   return (
@@ -20,6 +21,7 @@ export default function Home({navigation}) {
         <Text style={style.buttonText}>Concerts</Text>
       </Button>
     </View>
+    <CartButton />
     </View>
   )
 }
