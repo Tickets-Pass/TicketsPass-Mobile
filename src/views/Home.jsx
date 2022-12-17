@@ -1,7 +1,7 @@
 import { View, Text, ImageBackground ,Image,StyleSheet, Pressable} from 'react-native'
 import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Button } from 'react-native-paper';
 
 export default function Home({navigation}) {
   return (
@@ -13,12 +13,12 @@ export default function Home({navigation}) {
       </LinearGradient>
     </ImageBackground>
     <View style={style.content}>
-      <Pressable style={style.button} onPress={() => navigation.navigate("Artists")}>
+      <Button mode="contained" icon="account-music" style={style.button} onPress={() => navigation.navigate("Artists")}>
         <Text style={style.buttonText}>Artists</Text>
-      </Pressable>
-      <Pressable style={style.button} onPress={() => navigation.navigate("Concerts")}>
+      </Button>
+      <Button mode="contained" icon="music-note" style={style.button} onPress={() => navigation.navigate("Concerts")}>
         <Text style={style.buttonText}>Concerts</Text>
-      </Pressable>
+      </Button>
     </View>
     </View>
   )
@@ -61,9 +61,7 @@ const style = StyleSheet.create({
     padding: 20
   },
   button: {
-    width: '100%',
-    backgroundColor: 'purple',
-    padding: 15,
+    paddingVertical: 10,
     borderRadius: 8
   },
   buttonText: {
