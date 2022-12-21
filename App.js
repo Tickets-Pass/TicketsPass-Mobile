@@ -5,6 +5,7 @@ import Drawer from './src/navigation/Drawer';
 import { store } from './src/redux/store';
 import { Provider } from 'react-redux';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
+import "./src/i18n";
 import { StatusBar } from 'expo-status-bar';
 
 const theme = {
