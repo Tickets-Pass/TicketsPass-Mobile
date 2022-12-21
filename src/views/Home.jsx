@@ -3,10 +3,12 @@ import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from 'react-native-paper';
 import CartButton from '../components/CartButton';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 
 export default function Home({navigation}) {
+  const {logged} = useSelector(store => store.userReducer)
   const {t} = useTranslation()
   return (
     <View style={style.container}>
@@ -19,8 +21,7 @@ export default function Home({navigation}) {
             <Text style={style.buttonText}>{t('concert')}</Text>
           </Button>
         </View>
-
-        <CartButton />
+        {logged && <CartButton />}
       </ImageBackground>
     </View>
   )
