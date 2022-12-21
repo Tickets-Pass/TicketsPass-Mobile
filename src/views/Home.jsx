@@ -3,10 +3,12 @@ import React from 'react'
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from 'react-native-paper';
 import CartButton from '../components/CartButton';
+import { useSelector } from 'react-redux';
 
 /* source={{uri:'https://media4.giphy.com/media/lmjzmEcZLkcMLtVrWi/giphy.gif'}} */
 
 export default function Home({ navigation }) {
+  const {logged} = useSelector(store => store.userReducer)
   return (
     <View style={style.container}>
       <ImageBackground source={require('../../assets/background2.jpg')} style={{ flex: 1 }} resizeMode="cover">
@@ -18,7 +20,7 @@ export default function Home({ navigation }) {
             <Text style={style.buttonText}>Concerts</Text>
           </Button>
         </View>
-        <CartButton />
+        {logged && <CartButton />}
       </ImageBackground>
     </View>
   )
