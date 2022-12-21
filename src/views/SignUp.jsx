@@ -9,9 +9,6 @@ import { getApps, initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { uuidv4 } from "@firebase/util";
 
-
-
-
 export default function SignUp({navigation}) {
     let [show, setShow] = useState(false);
     const [date, setDate] = useState(new Date());

@@ -1,4 +1,4 @@
-import { Alert, Text, ScrollView, Image, TouchableOpacity ,StyleSheet,TextInput } from "react-native";
+import { Alert, Text, ScrollView, Image, TouchableOpacity ,StyleSheet,TextInput,LogBox,ActivityIndicator,View } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -6,6 +6,10 @@ import * as ImagePicker from "expo-image-picker";
 import { useDispatch } from "react-redux";
 import userAction from "../redux/actions/userAction";
 import { useTranslation } from "react-i18next";
+import { getApps, initializeApp } from "firebase/app";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { uuidv4 } from "@firebase/util";
+
 
 export default function Profile({ navigation }) {
     const {t} = useTranslation()
@@ -15,11 +19,26 @@ export default function Profile({ navigation }) {
     let { user,id,token} = useSelector((store) => store.userReducer);
     const [date, setDate] = useState(new Date(user.birthDate));
     const [image, setImage] = useState(null);
+    const [load,setLoad] = useState(false)
     let [fName, setFName] = useState(user.name)
     let [lName, setLName] = useState(user.lastName)
     let [email, setEmail] = useState(user.email)
     let dispatch = useDispatch()
     let {updateUser,signToken} = userAction
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDq1DascG1WxTIe9s9Lzef73wXeIwrUb1E",
+        authDomain: "photos-app-ticketspasss.firebaseapp.com",
+        databaseURL: "https://photos-app-ticketspasss-default-rtdb.firebaseio.com",
+        projectId: "photos-app-ticketspasss",
+        storageBucket: "photos-app-ticketspasss.appspot.com",
+        messagingSenderId: "318770758454",
+        appId: "1:318770758454:web:17394e505a19a5c6452997"
+    };
+    if (!getApps().length) {
+        initializeApp(firebaseConfig);
+      }
+      LogBox.ignoreLogs([`Setting a timer for a long period`]);
 
     function getEdad(dateString) {
         let hoy = new Date();
@@ -32,6 +51,7 @@ export default function Profile({ navigation }) {
         setAge(edad);
     }
     const pickImage = async () => {
+        setLoad(true)
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
@@ -39,7 +59,9 @@ export default function Profile({ navigation }) {
             quality: 1,
         });
         if (!result.canceled) {
-            setImage(result.assets[0].uri);
+            const uploadUrl = await uploadImageAsync(result.assets[0].uri);
+            setImage(uploadUrl)
+            image && setLoad(false)
         }
     };
     let fecha = new Date(user.birthDate);
@@ -53,6 +75,25 @@ export default function Profile({ navigation }) {
         setDate(currentDate);
 
     };
+    async function uploadImageAsync(uri) {
+        const blob = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.onload = function () {
+            resolve(xhr.response);
+          };
+          xhr.onerror = function (e) {
+            console.log(e);
+            reject(new TypeError("Network request failed"));
+          };
+          xhr.responseType = "blob";
+          xhr.open("GET", uri, true);
+          xhr.send(null);
+        });
+        const fileRef = ref(getStorage(), uuidv4());
+        const result = await uploadBytes(fileRef, blob);
+        blob.close();
+        return await getDownloadURL(fileRef);
+      }
     let dato = {}
     fName !== '' && (dato.name = fName)
     lName !== ''  && (dato.lastName = lName)
@@ -81,7 +122,10 @@ export default function Profile({ navigation }) {
             {open&&<TouchableOpacity onPress={pickImage} style={style.input}>
             <Text style={{ textAlign: "center" }}>{t('choose')}</Text>
             </TouchableOpacity>}
-            <Image source={image?{uri:image}:{ uri: user.photo }} style={{ width: 200, height: 200, alignSelf: "center",borderRadius:25 }} />
+            {load  ? <View style={{backgroundColor: "rgba(0,0,0,0.4)",alignItems: "center",justifyContent: "center",width: 200, height: 200, borderRadius: 25, alignSelf: "center"}}>
+          <ActivityIndicator color="#fff" animating size="large" />
+        </View>: ''}
+            <Image source={image?{uri:image}:{ uri: user.photo }} style={load ? {display:'none'}:{ width: 200, height: 200, alignSelf: "center",borderRadius:25 }} />
             <Text style={style.text1}>{t('name')} {open&&<Image style={{width:20,height:20}} source={require('../../assets/editar.png')}/>}</Text>
             {!open?<Text style={style.input}>{!open && user.name + " " + user.lastName}</Text>:
             <TextInput style={style.input} value={fName} onChangeText={(item)=>setFName(item)} />}
