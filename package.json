@@ -29,6 +29,7 @@
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
+    "react-native-bouncy-checkbox": "^3.0.6",
     "react-native-gesture-flip-card": "^1.0.6",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-paper": "^5.0.1",
@@ -38,8 +39,8 @@
     "react-native-select-dropdown": "^3.1.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.9",
+    "react-native-webview": "^11.26.0",
     "react-redux": "^8.0.5"
-
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
