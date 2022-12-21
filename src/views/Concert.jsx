@@ -1,17 +1,21 @@
-import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import apiUrl from "../api/url";
 import { ActivityIndicator, Button, Divider, Paragraph, Title } from "react-native-paper";
 import { FontAwesome } from "@expo/vector-icons";
 import dateFormatter from "../utils/dateFormatter";
+import { useSelector } from "react-redux";
+import { useNavigation } from "@react-navigation/core";
 
 export default function Concert({ route }) {
   const { id } = route.params;
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [concert, setConcert] = useState(null);
-
+  const { logged, token } = useSelector(store => store.userReducer);
+  const [items, setItems] = useState([]);
+  const navigation = useNavigation();
   useEffect(() => {
     getConcert();
   }, [id]);
@@ -22,9 +26,44 @@ export default function Concert({ route }) {
       setConcert(res.data.response);
       setMessage("");
     } catch (error) {
-      setMessage(error.response ? error.response.data.message || error.response.data : error.message);
+      setMessage(`${error.response ? error.response.data.message || error.response.data : error.message}`);
     } finally {
       setLoading(false);
+    }
+    await getCart();
+  };
+
+  const getCart = async () => {
+    if (logged) {
+      let headers = { headers: { Authorization: `Bearer ${token}` } };
+      try {
+        let res = await axios.get(`${apiUrl}/api/carts`, headers);
+        setItems(res.data.response.items);
+      } catch {
+        setItems([]);
+      }
+    }
+  };
+
+  const addToCart = async () => {
+    if (logged) {
+      let headers = { headers: { Authorization: `Bearer ${token}` } };
+      try {
+        let res = await axios.post(`${apiUrl}/carts`, { concertId: id, quantity: 1 }, headers);
+        setItems(res.data.response.items);
+      } catch (error) {
+        Alert.alert("Error", `${error.response ? error.response.data.message || error.response.data : error.message}`);
+      }
+    } else {
+      Alert.alert(t("alert_redir_log"), t("alert_ticket_cart"), [
+        { text: "cancel" },
+        {
+          text: "login",
+          onPress: () => {
+            navigation.navigate("Sign In");
+          },
+        },
+      ]);
     }
   };
 
@@ -60,8 +99,18 @@ export default function Concert({ route }) {
             <Text>${concert.category.price} ARS</Text>
           </View>
         </View>
-        <Button icon="cart" mode="contained" style={styles.button}>
-          Add to cart
+        <Button
+          icon="cart"
+          mode="contained"
+          onPress={addToCart}
+          style={styles.button}
+          disabled={items.some(
+            product => product.categoryName === concert.category.name && product.concertId === concert._id
+          )}
+        >
+          {items.some(product => product.categoryName === concert.category.name && product.concertId === concert._id)
+            ? "Added to cart"
+            : "Add to cart"}
         </Button>
       </View>
     </ScrollView>
