@@ -21,13 +21,18 @@ export default function SignIn({navigation}) {
           if(res.payload.success){
             setEmail('')
             setPass('')
-            Alert.alert('succesful')
+            Alert.alert(res.payload.message)
             navigation.navigate('Home')
           } else{
-            Alert.alert('wrong user or password')
+            if(Array.isArray(res.payload.response)){
+                let text = res.payload.response.join('\n')
+                Alert.alert(text)
+            } else{
+                Alert.alert(res.payload.response[0])
+            }
           }
          })
-         .catch(err => console.log(err))
+         .catch(err => Alert.alert(err.message))
     }
 
 
