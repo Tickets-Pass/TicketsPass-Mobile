@@ -9,7 +9,6 @@ export default function ArtistCard({item, navigation}) {
       <Image style={styles.image} source={{uri: item.photo}} />
       <Card.Content>
       <Title style={styles.title}>{item.name}</Title>
-      <Divider style={styles.divider} />
       </Card.Content>
     </Card>
     </Pressable>
@@ -19,6 +18,12 @@ export default function ArtistCard({item, navigation}) {
 const styles = StyleSheet.create({
   card: {
     alignItems: 'center',
+    border: 'none',
+    backgroundColor: 'white',
+    elevation: 0,
+    shadowColor: 'transparent',
+    color: 'white',
+    surfaceColor: 'white',
   },
   image: {
     width: 200,
@@ -34,8 +39,5 @@ const styles = StyleSheet.create({
   title: {
     textTransform: 'capitalize',
     textAlign: 'center'
-  },
-  divider: {
-    marginVertical: 5
   },
 })

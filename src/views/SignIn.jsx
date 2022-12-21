@@ -9,7 +9,6 @@ export default function SignIn({navigation}) {
     let {logged} = useSelector(store=>store.userReducer)
     let [email,setEmail] = useState([])
     let[pass,setPass] = useState([])
-    console.log(logged)
     let dato ={
         email:email,
         password:pass
