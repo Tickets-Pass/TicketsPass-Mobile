@@ -5,8 +5,10 @@ import apiUrl from "../api/url";
 import { ActivityIndicator, Button, Divider, Paragraph, Title } from "react-native-paper";
 import { FontAwesome } from "@expo/vector-icons";
 import dateFormatter from "../utils/dateFormatter";
+import { useTranslation } from "react-i18next";
 
 export default function Concert({ route }) {
+  const {t} = useTranslation()
   const { id } = route.params;
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
@@ -44,7 +46,7 @@ export default function Concert({ route }) {
         <Paragraph>
           <FontAwesome name="calendar" /> {dateFormatter(concert.date)}
         </Paragraph>
-        <Title style={styles.capitalize}>{concert.type === "festival" ? "Lineup" : "Artist"}</Title>
+        <Title style={styles.capitalize}>{concert.type === "festival" ? "Lineup" : t('art')}</Title>
         {concert.artists.map(artist => (
           <Paragraph key={artist._id}>
             <FontAwesome name="music" /> {artist.name}
@@ -54,14 +56,14 @@ export default function Concert({ route }) {
       <Divider />
       <View>
         <View style={styles.categoryContent}>
-          <Title style={styles.categoryTitle}>Tickets</Title>
+          <Title style={styles.categoryTitle}>{t('ticket')}</Title>
           <View style={styles.row}>
             <Text style={styles.categoryName}>{concert.category.name}</Text>
             <Text>${concert.category.price} ARS</Text>
           </View>
         </View>
         <Button icon="cart" mode="contained" style={styles.button}>
-          Add to cart
+          {t('add')}
         </Button>
       </View>
     </ScrollView>

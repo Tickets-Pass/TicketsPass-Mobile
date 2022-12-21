@@ -5,8 +5,10 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch } from "react-redux";
 import userAction from "../redux/actions/userAction";
+import { useTranslation } from "react-i18next";
 
 export default function Profile({ navigation }) {
+    const {t} = useTranslation()
     let [age, setAge] = useState("");
     let [open,setOpen] = useState(false)
     let [show,setShow] = useState(false)
@@ -49,6 +51,7 @@ export default function Profile({ navigation }) {
         const currentDate = selectedDate;
         setShow(false);
         setDate(currentDate);
+
     };
     let dato = {}
     fName !== '' && (dato.name = fName)
@@ -74,31 +77,31 @@ export default function Profile({ navigation }) {
 
     return (
         <ScrollView style={{ backgroundColor: "#f5f5f5", flex: 1 ,padding:10}}>
-            <Text style={{ fontSize: 40, fontWeight: "800", textAlign: "center", margin: 10 }}>My Profile </Text>
+            <Text style={{ fontSize: 40, fontWeight: "800", textAlign: "center", margin: 10 }}>{t('profile')}</Text>
             {open&&<TouchableOpacity onPress={pickImage} style={style.input}>
-            <Text style={{ textAlign: "center" }}>Choose a photo</Text>
+            <Text style={{ textAlign: "center" }}>{t('choose')}</Text>
             </TouchableOpacity>}
             <Image source={image?{uri:image}:{ uri: user.photo }} style={{ width: 200, height: 200, alignSelf: "center",borderRadius:25 }} />
-            <Text style={style.text1}>Name {open&&<Image style={{width:20,height:20}} source={require('../../assets/editar.png')}/>}</Text>
+            <Text style={style.text1}>{t('name')} {open&&<Image style={{width:20,height:20}} source={require('../../assets/editar.png')}/>}</Text>
             {!open?<Text style={style.input}>{!open && user.name + " " + user.lastName}</Text>:
             <TextInput style={style.input} value={fName} onChangeText={(item)=>setFName(item)} />}
-            {open&&<><Text style={style.text1}>Last Name {open&&<Image style={{width:20,height:20}} source={require('../../assets/editar.png')}/>}</Text>
+            {open&&<><Text style={style.text1}>{t('Lname')} {open&&<Image style={{width:20,height:20}} source={require('../../assets/editar.png')}/>}</Text>
             <TextInput style={style.input} value={lName} onChangeText={item=>setLName(item)} /></>}
-            {!open&&(<><Text style={style.text1}>Age</Text>
+            {!open&&(<><Text style={style.text1}>{t('age')}</Text>
             <Text style={style.input}>{age}</Text></>)}
-            <Text style={style.text1}>BirthDate {open&&<Image style={{width:20,height:20}} source={require('../../assets/editar.png')}/>}</Text>
+            <Text style={style.text1}>{t('birth')} {open&&<Image style={{width:20,height:20}} source={require('../../assets/editar.png')}/>}</Text>
             {!open?<Text style={style.input}>{new Date(user.birthDate).toLocaleDateString()}</Text>:
             <TouchableOpacity style={style.input} onPress={() => setShow(true)}>
                 <Text style={{textAlign:'center'}}>{date.toLocaleDateString()}</Text>
             </TouchableOpacity>}
-            <Text style={style.text1}>Email {open&&<Image style={{width:20,height:20}} source={require('../../assets/editar.png')}/>}</Text>
+            <Text style={style.text1}>{t('email')} {open&&<Image style={{width:20,height:20}} source={require('../../assets/editar.png')}/>}</Text>
             {!open ? <Text style={style.input}>{user.email}</Text> :
             <TextInput  style={style.input} value={email} onChangeText={(item)=>setEmail(item)} />}
             {show && <DateTimePicker mode="date" value={date} onChange={onChange} />}
-            {open?<TouchableOpacity style={style.buton2} onPress={submit}><Text style={style.textbtn}>Edit</Text></TouchableOpacity>:
-            <TouchableOpacity style={style.buton2} onPress={()=>setOpen(true)}><Text style={style.textbtn}>Edit Profile</Text></TouchableOpacity>}
-            {open?<TouchableOpacity style={style.buton1} onPress={() => setOpen(false)}><Text style={style.textbtn}>Cancel</Text></TouchableOpacity>:
-            <TouchableOpacity style={style.buton1} onPress={() => navigation.navigate("Home")}><Text style={style.textbtn}>Go Back</Text></TouchableOpacity>}
+            {open?<TouchableOpacity style={style.buton2} onPress={submit}><Text style={style.textbtn}>{t('edit')}</Text></TouchableOpacity>:
+            <TouchableOpacity style={style.buton2} onPress={()=>setOpen(true)}><Text style={style.textbtn}>{t('edit_p')}</Text></TouchableOpacity>}
+            {open?<TouchableOpacity style={style.buton1} onPress={() => setOpen(false)}><Text style={style.textbtn}>{t('cancel')}</Text></TouchableOpacity>:
+            <TouchableOpacity style={style.buton1} onPress={() => navigation.navigate(t('home'))}><Text style={style.textbtn}>{t('go_b')}</Text></TouchableOpacity>}
         </ScrollView>
     );
 }

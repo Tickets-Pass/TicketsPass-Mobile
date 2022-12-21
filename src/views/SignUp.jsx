@@ -4,6 +4,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch } from "react-redux";
 import userAction from "../redux/actions/userAction";
+import { useTranslation } from "react-i18next";
 
 
 export default function SignUp({navigation}) {
@@ -16,6 +17,7 @@ export default function SignUp({navigation}) {
     let [pass, setPass] = useState('')
     let dispatch = useDispatch()
     let {signUp} = userAction
+    const {t} = useTranslation()
     
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate;
@@ -57,31 +59,31 @@ export default function SignUp({navigation}) {
 
     return (
         <ScrollView style={{ backgroundColor: "#f5f5f5", flex: 1, padding: 10, paddingBottom: 50 }}>
-            <Text style={{ fontSize: 25, textAlign: "center", fontWeight: "900" }}  >SignUp</Text>
-            <Text style={style.text1}>Name</Text>
-            <TextInput placeholder="Your Name..." style={style.input} value={fName} onChangeText={(item)=>setFName(item)} ></TextInput>
-            <Text style={style.text1}>Last Name</Text>
-            <TextInput placeholder="Your LastName..." style={style.input} value={lName} onChangeText={item=>setLName(item)} ></TextInput>
-            <Text style={style.text1}>BirthDate</Text>
+            <Text style={{ fontSize: 25, textAlign: "center", fontWeight: "900" }}  >{t('sign_up')}</Text>
+            <Text style={style.text1}>{t('name')}</Text>
+            <TextInput placeholder={t('user_n')} style={style.input} value={fName} onChangeText={(item)=>setFName(item)} ></TextInput>
+            <Text style={style.text1}>{t('Lname')}</Text>
+            <TextInput placeholder={t('user_l')} style={style.input} value={lName} onChangeText={item=>setLName(item)} ></TextInput>
+            <Text style={style.text1}>{t('birth')}</Text>
             <TouchableOpacity style={style.input} onPress={() => setShow(true)}>
                 <Text style={{textAlign:'center'}}>{date.toLocaleDateString()}</Text>
             </TouchableOpacity>
             {show && <DateTimePicker mode="date" value={date} onChange={onChange} />}
-            <Text style={style.text1}>Photo</Text>
+            <Text style={style.text1}>{t('photo')}</Text>
             <TouchableOpacity onPress={pickImage} style={style.input}>
-                <Text style={{ textAlign: "center" }}>Choose a photo</Text>
+                <Text style={{ textAlign: "center" }}>{t('choose')}</Text>
             </TouchableOpacity>
             {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 25, alignSelf: "center", marginTop: 25 }} />}
-            <Text style={style.text1}>Email</Text>
-            <TextInput placeholder="Enter your email..." style={style.input} value={email} onChangeText={(item)=>setEmail(item)} />
-            <Text style={style.text1}>Password</Text>
-            <TextInput style={style.input} placeholder="Enter your password..." value={pass} onChangeText={(item)=>setPass(item)} />
+            <Text style={style.text1}>{t('email')}</Text>
+            <TextInput placeholder={t('user_e')} style={style.input} value={email} onChangeText={(item)=>setEmail(item)} />
+            <Text style={style.text1}>{t('pass')}</Text>
+            <TextInput style={style.input} placeholder={t('user_pas')} value={pass} onChangeText={(item)=>setPass(item)} />
             <TouchableOpacity style={style.buton2} onPress={submit} >
-                <Text style={style.textbtn}>Sign Up</Text>
+                <Text style={style.textbtn}>{t('register')}</Text>
             </TouchableOpacity>
-            <Text style={style.text2}>Do you have an Acount?</Text>
-            <TouchableOpacity style={style.buton1} onPress={()=>navigation.navigate('Sign In')} >
-                <Text style={style.textbtn}>Sign In Here!</Text>
+            <Text style={style.text2}>{t('have_account')}</Text>
+            <TouchableOpacity style={style.buton1} onPress={()=>navigation.navigate(t('sign_in'))} >
+                <Text style={style.textbtn}>{t('log_here')}</Text>
             </TouchableOpacity>
         </ScrollView>
     );

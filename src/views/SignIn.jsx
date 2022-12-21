@@ -2,8 +2,10 @@ import { View, Text,TextInput ,TouchableOpacity,StyleSheet,Alert} from 'react-na
 import React,{useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import userActions from '../redux/actions/userAction'
-export default function SignIn({navigation}) {
+import { useTranslation } from 'react-i18next'
 
+export default function SignIn({navigation}) {
+    const {t} = useTranslation()
     let dispatch = useDispatch()
     let {signIn} = userActions
     let {logged} = useSelector(store=>store.userReducer)
@@ -35,14 +37,14 @@ export default function SignIn({navigation}) {
 
     return (
     <View style={{backgroundColor:'#f5f5f5',flex:1,padding:10}} >
-        <Text style={{fontSize:25,textAlign:'center',fontWeight:'900'}} >Sign In</Text>
-        <Text style={style.text1} >User Email</Text>
-        <TextInput keyboardType='email-address' value={email} onChangeText={item=>setEmail(item)} placeholder='Enter your user...' style={style.input} />
-        <Text style={style.text1} >Password</Text>
-        <TextInput passwordRules={true} secureTextEntry={true} placeholder='Enter your password...' value={pass} onChangeText={item=>setPass(item)} style={style.input} />
-        <TouchableOpacity style={style.buton2} ><Text style={style.textbtn} onPress={submit} >Sign In</Text></TouchableOpacity>
-        <Text style={style.text2} >Don't you have an Account?</Text>
-        <TouchableOpacity style={style.buton1} ><Text style={style.textbtn} onPress={()=>navigation.navigate('Sign Up')} >Sign UP Here!</Text></TouchableOpacity>
+        <Text style={{fontSize:25,textAlign:'center',fontWeight:'900'}} >{t('sign_in')}</Text>
+        <Text style={style.text1} >{t('email')}</Text>
+        <TextInput keyboardType='email-address' value={email} onChangeText={item=>setEmail(item)} placeholder={t('user_e')} style={style.input} />
+        <Text style={style.text1} >{t('pass')}</Text>
+        <TextInput passwordRules={true} secureTextEntry={true} placeholder={t('user_pas')} value={pass} onChangeText={item=>setPass(item)} style={style.input} />
+        <TouchableOpacity style={style.buton2} ><Text style={style.textbtn} onPress={submit} >{t('sign_in')}</Text></TouchableOpacity>
+        <Text style={style.text2} >{t('have_not_account')}</Text>
+        <TouchableOpacity style={style.buton1} ><Text style={style.textbtn} onPress={()=>navigation.navigate(t('sign_up'))} >{t('log_her')}</Text></TouchableOpacity>
     </View>
     )
 }

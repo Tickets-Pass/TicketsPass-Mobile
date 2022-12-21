@@ -2,10 +2,12 @@ import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
 import React from 'react'
 import { Card, Divider, Paragraph, Title } from 'react-native-paper'
 import dateFormatter from '../utils/dateFormatter'
+import { useTranslation } from 'react-i18next'
 
 export default function ConcertCard({item, navigation}) {
+  const {t} = useTranslation()
   return (
-    <Pressable onPress={() => navigation.navigate("Concert", {id: item._id})}>
+    <Pressable onPress={() => navigation.navigate(t('concrt'), {id: item._id})}>
     <Card style={styles.card}>
       <Image style={styles.image} source={{uri: item.photo}} />
       <Card.Content>
