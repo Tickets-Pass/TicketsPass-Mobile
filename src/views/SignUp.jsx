@@ -1,16 +1,22 @@
-import { ScrollView, Text, StyleSheet, TextInput, TouchableOpacity, Image , Alert } from "react-native";
+import {View, ScrollView, Text, StyleSheet, TextInput, TouchableOpacity, Image , Alert ,LogBox,ActivityIndicator} from "react-native";
 import React, { useState } from "react";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from "expo-image-picker";
 import { useDispatch } from "react-redux";
 import userAction from "../redux/actions/userAction";
 import { useTranslation } from "react-i18next";
+import { getApps, initializeApp } from "firebase/app";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { uuidv4 } from "@firebase/util";
+
+
 
 
 export default function SignUp({navigation}) {
     let [show, setShow] = useState(false);
     const [date, setDate] = useState(new Date());
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState(null)
+    const [load,setLoad] = useState(false)
     let [fName, setFName] = useState('')
     let [lName, setLName] = useState('')
     let [email, setEmail] = useState('')
@@ -18,14 +24,29 @@ export default function SignUp({navigation}) {
     let dispatch = useDispatch()
     let {signUp} = userAction
     const {t} = useTranslation()
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyDq1DascG1WxTIe9s9Lzef73wXeIwrUb1E",
+        authDomain: "photos-app-ticketspasss.firebaseapp.com",
+        databaseURL: "https://photos-app-ticketspasss-default-rtdb.firebaseio.com",
+        projectId: "photos-app-ticketspasss",
+        storageBucket: "photos-app-ticketspasss.appspot.com",
+        messagingSenderId: "318770758454",
+        appId: "1:318770758454:web:17394e505a19a5c6452997"
+    };
+    if (!getApps().length) {
+        initializeApp(firebaseConfig);
+      }
+      LogBox.ignoreLogs([`Setting a timer for a long period`]);
     
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate;
         setShow(false);
         setDate(currentDate);
     };
-
+    
     const pickImage = async () => {
+        setLoad(true)
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
@@ -33,9 +54,32 @@ export default function SignUp({navigation}) {
             quality: 1,
         });
         if (!result.canceled) {
-            setImage(result.assets[0].uri);
+            const uploadUrl = await uploadImageAsync(result.assets[0].uri);
+            setImage(uploadUrl)
+            setLoad(false)
         }
-    };
+    }
+
+    async function uploadImageAsync(uri) {
+        const blob = await new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.onload = function () {
+            resolve(xhr.response);
+          };
+          xhr.onerror = function (e) {
+            console.log(e);
+            reject(new TypeError("Network request failed"));
+          };
+          xhr.responseType = "blob";
+          xhr.open("GET", uri, true);
+          xhr.send(null);
+        });
+        const fileRef = ref(getStorage(), uuidv4());
+        const result = await uploadBytes(fileRef, blob);
+        blob.close();
+        return await getDownloadURL(fileRef);
+      }
+
     let dato = {
         name:fName,
         lastName:lName,
@@ -73,7 +117,10 @@ export default function SignUp({navigation}) {
             <TouchableOpacity onPress={pickImage} style={style.input}>
                 <Text style={{ textAlign: "center" }}>{t('choose')}</Text>
             </TouchableOpacity>
-            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200, borderRadius: 25, alignSelf: "center", marginTop: 25 }} />}
+            {load  ? <View style={{backgroundColor: "rgba(0,0,0,0.4)",alignItems: "center",justifyContent: "center",width: 200, height: 200, borderRadius: 25, alignSelf: "center", marginTop: 25 }}>
+          <ActivityIndicator color="#fff" animating size="large" />
+        </View>: ''}
+            {image  && <Image source={{ uri: image }} style={load ? {display:'none'}:{ width: 200, height: 200, borderRadius: 25, alignSelf: "center", marginTop: 25 }} />}
             <Text style={style.text1}>{t('email')}</Text>
             <TextInput placeholder={t('user_e')} style={style.input} value={email} onChangeText={(item)=>setEmail(item)} />
             <Text style={style.text1}>{t('pass')}</Text>
@@ -82,7 +129,7 @@ export default function SignUp({navigation}) {
                 <Text style={style.textbtn}>{t('register')}</Text>
             </TouchableOpacity>
             <Text style={style.text2}>{t('have_account')}</Text>
-            <TouchableOpacity style={style.buton1} onPress={()=>navigation.navigate(t('sign_in'))} >
+            <TouchableOpacity style={style.buton1} onPress={()=>navigation.navigate('Sign in')} >
                 <Text style={style.textbtn}>{t('log_here')}</Text>
             </TouchableOpacity>
         </ScrollView>

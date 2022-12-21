@@ -9,6 +9,7 @@ const signIn = createAsyncThunk('signIn',async(datos)=>{
         return {
             success:res.data.success,
             response:res.data,
+            message:res.data.message
         }
     }catch (error) {
         return {

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, Pressable } from 'react-native'
+import { Text, StyleSheet, Image, Pressable } from 'react-native'
 import React from 'react'
 import { Card, Divider, Paragraph, Title } from 'react-native-paper'
 import dateFormatter from '../utils/dateFormatter'

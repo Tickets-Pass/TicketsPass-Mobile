@@ -6,14 +6,13 @@ import { store } from './src/redux/store';
 import { Provider } from 'react-redux';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import "./src/i18n";
-import { ApplicationProvider } from '@ui-kitten/components'
-import * as eva from '@eva-design/eva';
+import { StatusBar } from 'expo-status-bar';
 
 const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: 'purple',
+    primary: 'black',
   },
 }
 
@@ -21,15 +20,14 @@ export default function App() {
 
   return (
     <SafeAreaView style={{flex:1}}>
-      <ApplicationProvider {...eva} theme={eva.light}>
-        <NavigationContainer>
-          <PaperProvider theme={theme}>
-          <Provider store={store}>
-            <Drawer/>
-          </Provider>
-          </PaperProvider>
-        </NavigationContainer>
-      </ApplicationProvider>
+      <NavigationContainer>
+        <PaperProvider theme={theme}>
+        <Provider store={store}>
+        <StatusBar style="light" />
+          <Drawer/>
+        </Provider>
+        </PaperProvider>
+      </NavigationContainer>
     </SafeAreaView>
   );
 }
