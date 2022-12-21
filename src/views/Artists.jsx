@@ -10,9 +10,10 @@ import axios from 'axios'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable'
+import { useTranslation } from 'react-i18next'
 
 export default function Artists({ navigation }) {
-
+  const {t} = useTranslation()
   let dispatch = useDispatch()
   let [isOpen, setIsOpen] = useState(false)
   let [genres, setGenres] = useState([])
@@ -54,8 +55,8 @@ export default function Artists({ navigation }) {
             </View>
           )}
           ListHeaderComponent={<View style={{ backgroundColor: 'white' }}>
-            <Searchbar placeholder="Search Artist" value={filter.name} onChangeText={onSearch} />
-            <Pressable onPress={() => setIsOpen(!isOpen)} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}><Title style={{ fontWeight: '600' }}>Select by genre</Title>{isOpen ? <Image source={require('../../assets/icons8-slide-up-48.png')} style={{ width: 30, height: 30 }} /> : <Image source={require('../../assets/icons8-down-button-48.png')} style={{ width: 30, height: 30 }} />}</Pressable>
+            <Searchbar placeholder={t('search_a')} value={filter.name} onChangeText={onSearch} />
+            <Pressable onPress={() => setIsOpen(!isOpen)} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}><Title style={{ fontWeight: '600' }}>{t('search_g')}</Title>{isOpen ? <Image source={require('../../assets/icons8-slide-up-48.png')} style={{ width: 30, height: 30 }} /> : <Image source={require('../../assets/icons8-down-button-48.png')} style={{ width: 30, height: 30 }} />}</Pressable>
             {isOpen && <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-around", flexWrap: 'wrap' }}>
               {
                 genres.length > 0 ?

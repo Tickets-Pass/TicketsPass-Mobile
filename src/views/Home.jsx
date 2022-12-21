@@ -3,20 +3,21 @@ import React from 'react'
 import { Button } from 'react-native-paper';
 import CartButton from '../components/CartButton';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
-/* source={{uri:'https://media4.giphy.com/media/lmjzmEcZLkcMLtVrWi/giphy.gif'}} */
 
-export default function Home({ navigation }) {
+export default function Home({navigation}) {
   const {logged} = useSelector(store => store.userReducer)
+  const {t} = useTranslation()
   return (
     <View style={style.container}>
       <ImageBackground source={require('../../assets/background2.jpg')} style={{ flex: 1 }} resizeMode="cover">
         <View style={style.content}>
-          <Button mode="contained" icon="account-music" style={style.button} onPress={() => navigation.navigate("Artists")}>
-            <Text style={style.buttonText}>Artists</Text>
+          <Button mode="contained" icon="account-music" style={style.button} onPress={() => navigation.navigate(t('artist'))}>
+            <Text style={style.buttonText}>{t('artist')}</Text>
           </Button>
-          <Button mode="contained" icon="music-note" style={style.button} onPress={() => navigation.navigate("Concerts")}>
-            <Text style={style.buttonText}>Concerts</Text>
+          <Button mode="contained" icon="music-note" style={style.button} onPress={() => navigation.navigate(t('concert'))}>
+            <Text style={style.buttonText}>{t('concert')}</Text>
           </Button>
         </View>
         {logged && <CartButton />}

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import concertsActions from "../redux/actions/concertsActions";
 import ConcertCard from "../components/ConcertCard";
 import { ActivityIndicator, Searchbar, Title } from "react-native-paper";
+import { t } from "i18next";
 
 export default function Concerts({ navigation }) {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ export default function Concerts({ navigation }) {
       renderItem={({ item }) => <ConcertCard item={item} navigation={navigation} />}
       ItemSeparatorComponent={<View style={{margin: 20}}></View>}
       ListHeaderComponent={<View>
-        <Searchbar placeholder="Search Concert" onChangeText={onSearch}/>
+        <Searchbar placeholder={t('search_c')} onChangeText={onSearch}/>
       </View>}
       ListEmptyComponent={<Title style={styles.message}>{message}</Title> }
     />

@@ -4,8 +4,10 @@ import axios from 'axios'
 import apiUrl from '../api/url'
 import { ActivityIndicator, Title } from 'react-native-paper'
 import { ScrollView ,ImageBackground, Dimensions, Text, View, Pressable } from 'react-native'
+import { useTranslation } from 'react-i18next'
 
 export default function Artist({routes}) {
+  const {t} = useTranslation()
   let {id} = useRoute().params
   let [artist, setArtist] = useState({})
   let [concerts, setConcerts] = useState([])
@@ -40,7 +42,7 @@ export default function Artist({routes}) {
     <ImageBackground source={{uri: artist.photo}} resizeMode='cover' imageStyle={{opacity: .5}} style={{height: screenHeight}}>
           <Text style={{textAlign:'center', fontFamily: 'monospace', fontSize: 40, marginTop: 30}}>{artist.name}</Text>
           <View style={{marginTop: 150, marginStart:10}}>
-            <Text style={{fontSize: 25, color: 'gold', fontWeight: '800'}}>Upcoming concerts</Text>
+            <Text style={{fontSize: 25, color: 'gold', fontWeight: '800'}}>{t('incom_c')}</Text>
             {
               concerts.length > 0 ?
               concerts.map(el => 
@@ -54,7 +56,7 @@ export default function Artist({routes}) {
       </ImageBackground>
       <View style={{padding: 5}}>
         <Text style={{fontSize: 17, marginBottom: 5}}>{artist.description}</Text>
-        <Text style={{textAlign: 'center'}}>Genre: {artist.genre.join(', ')}</Text>
+        <Text style={{textAlign: 'center'}}>{t('genre')}: {artist.genre.join(', ')}</Text>
       </View>
     </> :
     <Text>{error}</Text>}
