@@ -5,6 +5,7 @@ const { getInitialData, getQuery } = concertsActions;
 const initialState = {
   concerts: [],
   name: "",
+  type: "",
   initial: true,
   loading: true,
   message: ""
