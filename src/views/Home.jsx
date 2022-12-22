@@ -1,6 +1,5 @@
 import { View, Text, ImageBackground, Image, StyleSheet, Pressable } from 'react-native'
 import React from 'react'
-import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from 'react-native-paper';
 import CartButton from '../components/CartButton';
 import { useSelector } from 'react-redux';
