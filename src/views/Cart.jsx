@@ -6,7 +6,6 @@ import Product from "../components/Product";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import apiUrl from "../api/url";
-import MercadoPagoCheckout from '@blackbox-vision/react-native-mercadopago-px';
 
 
 export default function Cart() {
