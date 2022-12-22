@@ -54,6 +54,8 @@ export default function SignUp({navigation}) {
             const uploadUrl = await uploadImageAsync(result.assets[0].uri);
             setImage(uploadUrl)
             setLoad(false)
+        }else{
+            setLoad(false)
         }
     }
 
