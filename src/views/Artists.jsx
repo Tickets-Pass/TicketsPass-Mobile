@@ -53,7 +53,7 @@ export default function Artists({navigation}) {
         ListHeaderComponent={<View>
           <Searchbar placeholder="Search Artist" value={filter.name} onChangeText={onSearch}/>
           <Pressable onPress={() => setIsOpen(!isOpen)} style={{flexDirection: 'row', alignItems: 'center', justifyContent:'center'}}><Title style={{fontWeight: '600'}}>Select by genre</Title>{isOpen ? <Image source={require('../../assets/icons8-slide-up-48.png')} style={{width:30,height:30}}/> : <Image source={require('../../assets/icons8-down-button-48.png')} style={{width:30,height:30}}/>}</Pressable>
-          {isOpen && <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-around", flexWrap: 'wrap', backgroundColor: 'gainsboro'}}>
+          {isOpen && <View style={{flexDirection: "row", justifyContent: 'space-evenly', alignItems: 'center', flexWrap: 'wrap', backgroundColor: 'gainsboro'}}>
             {
               genres.length > 0 ?
               genres.map(el => 

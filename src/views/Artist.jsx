@@ -3,7 +3,8 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import axios from 'axios'
 import apiUrl from '../api/url'
 import { ActivityIndicator, Title } from 'react-native-paper'
-import { ScrollView ,ImageBackground, Dimensions, Text, View, Pressable } from 'react-native'
+import { ScrollView, ImageBackground, Dimensions, Text, View, Pressable } from 'react-native'
+import ArtistVideo from '../components/ArtistVideo'
 
 export default function Artist({routes}) {
   let {id} = useRoute().params
@@ -56,6 +57,7 @@ export default function Artist({routes}) {
         <Text style={{fontSize: 17, marginBottom: 5}}>{artist.description}</Text>
         <Text style={{textAlign: 'center'}}>Genre: {artist.genre.join(', ')}</Text>
       </View>
+      <ArtistVideo videoId={artist.youtubeVideo.slice(30)}/>
     </> :
     <Text>{error}</Text>}
     </ScrollView>
