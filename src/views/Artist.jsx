@@ -14,7 +14,7 @@ export default function Artist({routes}) {
   let [concerts, setConcerts] = useState([])
   let [load, setLoad] = useState(true)
   let [error, setError] = useState('')
-  let {navigate} = useNavigation()
+  let navigate = useNavigation()
   let screenHeight = Dimensions.get('window').height
 
   useEffect(() => {
@@ -32,6 +32,7 @@ export default function Artist({routes}) {
 
     axios.get(`${apiUrl}/concerts?artistId=${id}`)
        .then(res => setConcerts(res.data.response))
+       .catch(err => console.log(err.message))
  }, [id])
 
   return (
@@ -47,7 +48,7 @@ export default function Artist({routes}) {
             {
               concerts.length > 0 ?
               concerts.map(el => 
-                <Pressable key={el._id} onPress={() => navigate("Concert", {id: el._id})}>
+                <Pressable key={el._id} onPress={() => navigate.navigate(t("concrt"), {id: el._id})}>
                   <Text style={{fontSize: 18, fontWeight: '600'}}>+{el.name}</Text>
                 </Pressable>
                 ) :

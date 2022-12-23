@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, Image, Alert } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image, Alert, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import apiUrl from "../api/url";
@@ -17,7 +17,7 @@ export default function Concert({ route }) {
   const [concert, setConcert] = useState(null);
   const { logged, token } = useSelector(store => store.userReducer);
   const [items, setItems] = useState([]);
-  const navigation = useNavigation();
+  const {navigate} = useNavigation();
   useEffect(() => {
     getConcert();
   }, [id]);
@@ -79,9 +79,11 @@ export default function Concert({ route }) {
         </Paragraph>
         <Title style={styles.capitalize}>{concert.type === "festival" ? "Lineup" : t("art")}</Title>
         {concert.artists.map(artist => (
-          <Paragraph key={artist._id}>
-            <FontAwesome name="music" /> {artist.name}
-          </Paragraph>
+          <Pressable  key={artist._id} onPress={() => navigate(t('art'), {id: artist._id})}>
+            <Paragraph>
+              <FontAwesome name="music" /> {artist.name}
+            </Paragraph>
+          </Pressable>
         ))}
       </View>
       <Divider />
