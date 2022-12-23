@@ -44,9 +44,10 @@ export default function Artists({ navigation }) {
     dispatch(setSearched(searched))
   }
     return (
-      <SafeAreaView style={{flexGrow: 1, backgroundColor: 'white'}}>
-        {loading ? <ActivityIndicator animating={true} />  :
+      
+      loading ? <ActivityIndicator animating={true} />  :
       <FlatList
+      style={{backgroundColor: 'white'}}
         data={artists}
         keyExtractor={item => item._id}
         renderItem={({ item }) => (
@@ -57,8 +58,8 @@ export default function Artists({ navigation }) {
         ItemSeparatorComponent={<View style={{margin: 5}}></View>}
         ListHeaderComponent={<View>
           <Searchbar placeholder="Search Artist" value={filter.name} onChangeText={onSearch}/>
-          <Pressable onPress={() => setIsOpen(!isOpen)} style={{flexDirection: 'row', alignItems: 'center', justifyContent:'center'}}><Title style={{fontWeight: '600'}}>Select by genre</Title>{isOpen ? <Image source={require('../../assets/icons8-slide-up-48.png')} style={{width:30,height:30}}/> : <Image source={require('../../assets/icons8-down-button-48.png')} style={{width:30,height:30}}/>}</Pressable>
-          {isOpen && <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-evenly", flexWrap: 'wrap', backgroundColor: 'gainsboro'}}>
+          <Pressable onPress={() => setIsOpen(!isOpen)} style={{flexDirection: 'row', alignItems: 'center', justifyContent:'center', paddingVertical: 8, backgroundColor: '#ebecf0'}}><Title style={{fontWeight: '600', marginEnd: 5}}>Select by genre</Title>{isOpen ? <Image source={require('../../assets/icons8-slide-up-48.png')} style={{width:26,height:26}}/> : <Image source={require('../../assets/icons8-down-button-48.png')} style={{width:26,height:26}}/>}</Pressable>
+          {isOpen && <View style={{flexDirection: "row", alignItems: "center", flexWrap: 'wrap', backgroundColor: '#ebecf0'}}>
             {
               genres.length > 0 ?
               genres.map(el => 
@@ -78,7 +79,6 @@ export default function Artists({ navigation }) {
           </View>}
         </View>}
         ListEmptyComponent={<Title>{message}</Title> }
-      />}
-      </SafeAreaView>
+      />
   );
 }
