@@ -12,7 +12,7 @@ const StackNav = createNativeStackNavigator();
 export default function Stack() {
   const {t} = useTranslation()
   return (
-    <StackNav.Navigator>
+    <StackNav.Navigator  >
       <StackNav.Screen name={t('home')} component={Home} options={{ headerShown: false }} />
       <StackNav.Screen name={t('artist')} component={Artists} />
       <StackNav.Screen name={t('art')} component={Artist} />

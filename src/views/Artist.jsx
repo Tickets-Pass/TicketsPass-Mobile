@@ -38,7 +38,7 @@ export default function Artist({routes}) {
  }, [id])
 
   return (
-    <ScrollView>
+    <ScrollView >
     {load ?
     <ActivityIndicator style={{marginTop:25}} animating={true} /> :
     artist.name ?
@@ -63,7 +63,7 @@ export default function Artist({routes}) {
         <Text style={{textAlign: 'center'}}>{t('genre')}: {artist.genre.join(', ')}</Text>
       </View>
       <ArtistVideo videoId={artist.youtubeVideo.slice(30)}/>
-      <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+      <View style={{flexDirection: 'row', justifyContent: 'space-evenly',marginBottom:30}}>
         <Pressable onPress={() => Linking.openURL(artist.spotifyPlaylist)} style={{alignItems: 'center'}}>
           <Text>Spotify Playlist</Text>
           <SocialIcon button iconColor='green' type='spotify'/>

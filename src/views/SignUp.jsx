@@ -44,6 +44,14 @@ export default function SignUp({navigation}) {
     };
     
     const pickImage = async () => {
+        if (Platform.OS !== "web") {
+            const {
+                status,
+            } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== "granted") {
+                Alert.alert(t('permission'))
+            }
+          }
         setLoad(true)
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
