@@ -8,6 +8,7 @@ import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import "./src/i18n";
 import { StatusBar } from 'expo-status-bar';
 
+
 const theme = {
   ...DefaultTheme,
   colors: {
@@ -24,6 +25,7 @@ export default function App() {
         <PaperProvider theme={theme}>
         <Provider store={store}>
         <StatusBar style="light" />
+        
           <Drawer/>
         </Provider>
         </PaperProvider>
