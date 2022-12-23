@@ -6,6 +6,8 @@ import { ActivityIndicator, Title } from 'react-native-paper'
 import { ScrollView, ImageBackground, Dimensions, Text, View, Pressable } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import ArtistVideo from '../components/ArtistVideo'
+import {SocialIcon} from '@rneui/themed'
+import * as Linking from 'expo-linking'
 
 export default function Artist({routes}) {
   const {t} = useTranslation()
@@ -61,6 +63,16 @@ export default function Artist({routes}) {
         <Text style={{textAlign: 'center'}}>{t('genre')}: {artist.genre.join(', ')}</Text>
       </View>
       <ArtistVideo videoId={artist.youtubeVideo.slice(30)}/>
+      <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+        <Pressable onPress={() => Linking.openURL(artist.spotifyPlaylist)} style={{alignItems: 'center'}}>
+          <Text>Spotify Playlist</Text>
+          <SocialIcon button iconColor='green' type='spotify'/>
+        </Pressable>
+        <Pressable onPress={() => Linking.openURL(artist.youtubeChannel)} style={{alignItems: 'center'}}>
+          <Text>YouTube Channel</Text>
+          <SocialIcon button type='youtube'/>
+        </Pressable>
+      </View>
     </> :
     <Text>{error}</Text>}
     </ScrollView>
