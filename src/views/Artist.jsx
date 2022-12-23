@@ -3,8 +3,9 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import axios from 'axios'
 import apiUrl from '../api/url'
 import { ActivityIndicator, Title } from 'react-native-paper'
-import { ScrollView ,ImageBackground, Dimensions, Text, View, Pressable } from 'react-native'
+import { ScrollView, ImageBackground, Dimensions, Text, View, Pressable } from 'react-native'
 import { useTranslation } from 'react-i18next'
+import ArtistVideo from '../components/ArtistVideo'
 
 export default function Artist({routes}) {
   const {t} = useTranslation()
@@ -13,7 +14,7 @@ export default function Artist({routes}) {
   let [concerts, setConcerts] = useState([])
   let [load, setLoad] = useState(true)
   let [error, setError] = useState('')
-  let {navigate} = useNavigation()
+  let navigate = useNavigation()
   let screenHeight = Dimensions.get('window').height
 
   useEffect(() => {
@@ -31,6 +32,7 @@ export default function Artist({routes}) {
 
     axios.get(`${apiUrl}/concerts?artistId=${id}`)
        .then(res => setConcerts(res.data.response))
+       .catch(err => console.log(err.message))
  }, [id])
 
   return (
@@ -46,7 +48,7 @@ export default function Artist({routes}) {
             {
               concerts.length > 0 ?
               concerts.map(el => 
-                <Pressable key={el._id} onPress={() => navigate("Concert", {id: el._id})}>
+                <Pressable key={el._id} onPress={() => navigate.navigate(t("concrt"), {id: el._id})}>
                   <Text style={{fontSize: 18, fontWeight: '600'}}>+{el.name}</Text>
                 </Pressable>
                 ) :
@@ -58,6 +60,7 @@ export default function Artist({routes}) {
         <Text style={{fontSize: 17, marginBottom: 5}}>{artist.description}</Text>
         <Text style={{textAlign: 'center'}}>{t('genre')}: {artist.genre.join(', ')}</Text>
       </View>
+      <ArtistVideo videoId={artist.youtubeVideo.slice(30)}/>
     </> :
     <Text>{error}</Text>}
     </ScrollView>

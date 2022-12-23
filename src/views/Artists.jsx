@@ -43,41 +43,42 @@ export default function Artists({ navigation }) {
     let searched = text.trim()
     dispatch(setSearched(searched))
   }
-  return (
-    <SafeAreaView style={{ flexGrow: 1, backgroundColor: 'white' }}>
-      {loading ? <ActivityIndicator animating={true} /> :
-        <FlatList
-          data={artists}
-          keyExtractor={item => item._id}
-          renderItem={({ item }) => (
-            <View style={{backgroundColor: 'white'}}>
-              <ArtistCard item={item} navigation={navigation} />
-            </View>
-          )}
-          ListHeaderComponent={<View style={{ backgroundColor: 'white' }}>
-            <Searchbar placeholder={t('search_a')} value={filter.name} onChangeText={onSearch} />
-            <Pressable onPress={() => setIsOpen(!isOpen)} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}><Title style={{ fontWeight: '600' }}>{t('search_g')}</Title>{isOpen ? <Image source={require('../../assets/icons8-slide-up-48.png')} style={{ width: 30, height: 30 }} /> : <Image source={require('../../assets/icons8-down-button-48.png')} style={{ width: 30, height: 30 }} />}</Pressable>
-            {isOpen && <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-around", flexWrap: 'wrap' }}>
-              {
-                genres.length > 0 ?
-                  genres.map(el =>
-                    <BouncyCheckbox key={el} fillColor='darkviolet' style={{ padding: 10 }} text={el} textStyle={{ fontSize: 15, textDecorationLine: "none", }} isChecked={filter.genre.includes(el)} onPress={(isChecked) => {
-                      let auxArray = [...filter.genre]
-                      if (isChecked) {
-                        auxArray.push(el)
-                      } else {
-                        auxArray = auxArray.filter(element => element !== el)
-                      }
-                      let checked = auxArray
-                      dispatch(setChecked(checked))
-                    }}></BouncyCheckbox>
-                  ) :
-                  <Text>Cannot get genres</Text>
-              }
-            </View>}
+    return (
+      <SafeAreaView style={{flexGrow: 1, backgroundColor: 'white'}}>
+        {loading ? <ActivityIndicator animating={true} />  :
+      <FlatList
+        data={artists}
+        keyExtractor={item => item._id}
+        renderItem={({ item }) => (
+          <View style={{backgroundColor: 'white'}}>
+            <ArtistCard item={item} navigation={navigation} />
+          </View>
+        )}
+        ItemSeparatorComponent={<View style={{margin: 5}}></View>}
+        ListHeaderComponent={<View>
+          <Searchbar placeholder="Search Artist" value={filter.name} onChangeText={onSearch}/>
+          <Pressable onPress={() => setIsOpen(!isOpen)} style={{flexDirection: 'row', alignItems: 'center', justifyContent:'center'}}><Title style={{fontWeight: '600'}}>Select by genre</Title>{isOpen ? <Image source={require('../../assets/icons8-slide-up-48.png')} style={{width:30,height:30}}/> : <Image source={require('../../assets/icons8-down-button-48.png')} style={{width:30,height:30}}/>}</Pressable>
+          {isOpen && <View style={{flexDirection: "row", alignItems: "center", justifyContent: "space-evenly", flexWrap: 'wrap', backgroundColor: 'gainsboro'}}>
+            {
+              genres.length > 0 ?
+              genres.map(el => 
+                <BouncyCheckbox key={el} fillColor='darkviolet' style={{padding: 10}} text={el} textStyle={{fontSize: 15, textDecorationLine: "none",}} isChecked={filter.genre.includes(el)} onPress={(isChecked) => {
+                  let auxArray = [...filter.genre]
+                  if(isChecked){
+                      auxArray.push(el)
+                  }else{
+                      auxArray = auxArray.filter(element => element !== el)
+                  }
+                  let checked = auxArray
+                  dispatch(setChecked(checked))
+              }}></BouncyCheckbox>
+                ) :
+              <Text>Cannot get genres</Text>
+            }
           </View>}
-          ListEmptyComponent={<Title>{message}</Title>}
-        />}
-    </SafeAreaView>
+        </View>}
+        ListEmptyComponent={<Title>{message}</Title> }
+      />}
+      </SafeAreaView>
   );
 }
