@@ -5,31 +5,33 @@ import React from "react";
 import {ActivityIndicator,Button,Image,Share,StatusBar,StyleSheet,Text,View,LogBox} from "react-native";
 import * as Clipboard from "expo-clipboard";
 import { uuidv4 } from "@firebase/util";
+import { useTranslation } from "react-i18next";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDq1DascG1WxTIe9s9Lzef73wXeIwrUb1E",
-    authDomain: "photos-app-ticketspasss.firebaseapp.com",
-    databaseURL: "https://photos-app-ticketspasss-default-rtdb.firebaseio.com",
-    projectId: "photos-app-ticketspasss",
-    storageBucket: "photos-app-ticketspasss.appspot.com",
-    messagingSenderId: "318770758454",
-    appId: "1:318770758454:web:17394e505a19a5c6452997"
-};
+// const firebaseConfig = {
+//     apiKey: "AIzaSyDq1DascG1WxTIe9s9Lzef73wXeIwrUb1E",
+//     authDomain: "photos-app-ticketspasss.firebaseapp.com",
+//     databaseURL: "https://photos-app-ticketspasss-default-rtdb.firebaseio.com",
+//     projectId: "photos-app-ticketspasss",
+//     storageBucket: "photos-app-ticketspasss.appspot.com",
+//     messagingSenderId: "318770758454",
+//     appId: "1:318770758454:web:17394e505a19a5c6452997"
+// };
 
-// Editing this file with fast refresh will reinitialize the app on every refresh, let's not do that
-if (!getApps().length) {
-  initializeApp(firebaseConfig);
-}
+// // Editing this file with fast refresh will reinitialize the app on every refresh, let's not do that
+// if (!getApps().length) {
+//   initializeApp(firebaseConfig);
+// }
 
-// Firebase sets some timeers for a long period, which will trigger some warnings. Let's turn that off for this example
-LogBox.ignoreLogs([`Setting a timer for a long period`]);
+// // Firebase sets some timeers for a long period, which will trigger some warnings. Let's turn that off for this example
+// LogBox.ignoreLogs([`Setting a timer for a long period`]);
 
-export default class App extends React.Component {
+let {t} = useTranslation();
+export default class Permission extends React.Component {
 
-  state = {
-    image: null,
-    uploading: false,
-  };
+  // state = {
+  //   image: null,
+  //   uploading: false,
+  // };
 
   async componentDidMount() {
     if (Platform.OS !== "web") {
@@ -37,172 +39,172 @@ export default class App extends React.Component {
         status,
       } = await ImagePicker.requestMediaLibraryPermissionsAsync();
       if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
+        alert(t('permission'));
       }
     }
   }
 
-  render() {
-    let { image } = this.state;
+  // render() {
+  //   let { image } = this.state;
 
 
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        {!!image && (
-          <Text
-            style={{
-              fontSize: 20,
-              marginBottom: 20,
-              textAlign: "center",
-              marginHorizontal: 15,
-            }}
-          >
-            Example: Upload ImagePicker result
-          </Text>
-        )}
+  //   return (
+  //     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+  //       {!!image && (
+  //         <Text
+  //           style={{
+  //             fontSize: 20,
+  //             marginBottom: 20,
+  //             textAlign: "center",
+  //             marginHorizontal: 15,
+  //           }}
+  //         >
+  //           Example: Upload ImagePicker result
+  //         </Text>
+  //       )}
 
-        <Button
-          onPress={this._pickImage}
-          title="Pick an image from camera roll"
-        />
+  //       <Button
+  //         onPress={this._pickImage}
+  //         title="Pick an image from camera roll"
+  //       />
 
-        <Button onPress={this._takePhoto} title="Take a photo" />
+  //       <Button onPress={this._takePhoto} title="Take a photo" />
         
-        {this._maybeRenderImage()}
-        {this._maybeRenderUploadingOverlay()}
+  //       {this._maybeRenderImage()}
+  //       {this._maybeRenderUploadingOverlay()}
 
-        <StatusBar barStyle="default" />
-      </View>
-    );
-  }
+  //       <StatusBar barStyle="default" />
+  //     </View>
+  //   );
+  // }
 
-  _maybeRenderUploadingOverlay = () => {
-    if (this.state.uploading) {
-      return (
-        <View
-          style={[
-            StyleSheet.absoluteFill,
-            {
-              backgroundColor: "rgba(0,0,0,0.4)",
-              alignItems: "center",
-              justifyContent: "center",
-            },
-          ]}
-        >
-          <ActivityIndicator color="#fff" animating size="large" />
-        </View>
-      );
-    }
-  };
+  // _maybeRenderUploadingOverlay = () => {
+  //   if (this.state.uploading) {
+  //     return (
+  //       <View
+  //         style={[
+  //           StyleSheet.absoluteFill,
+  //           {
+  //             backgroundColor: "rgba(0,0,0,0.4)",
+  //             alignItems: "center",
+  //             justifyContent: "center",
+  //           },
+  //         ]}
+  //       >
+  //         <ActivityIndicator color="#fff" animating size="large" />
+  //       </View>
+  //     );
+  //   }
+  // };
 
-  _maybeRenderImage = () => {
-    let { image } = this.state;
-    if (!image) {
-      return;
-    }
+  // _maybeRenderImage = () => {
+  //   let { image } = this.state;
+  //   if (!image) {
+  //     return;
+  //   }
 
-    return (
-      <View
-        style={{
-          marginTop: 30,
-          width: 250,
-          borderRadius: 3,
-          elevation: 2,
-        }}
-      >
-        <View
-          style={{
-            borderTopRightRadius: 3,
-            borderTopLeftRadius: 3,
-            shadowColor: "rgba(0,0,0,1)",
-            shadowOpacity: 0.2,
-            shadowOffset: { width: 4, height: 4 },
-            shadowRadius: 5,
-            overflow: "hidden",
-          }}
-        >
-          <Image source={{ uri: image }} style={{ width: 250, height: 250 }} />
-        </View>
-        <Text
-          onPress={this._copyToClipboard}
-          onLongPress={this._share}
-          style={{ paddingVertical: 10, paddingHorizontal: 10 }}
-        >
-          {image}
-        </Text>
-      </View>
-    );
-  };
+  //   return (
+  //     <View
+  //       style={{
+  //         marginTop: 30,
+  //         width: 250,
+  //         borderRadius: 3,
+  //         elevation: 2,
+  //       }}
+  //     >
+  //       <View
+  //         style={{
+  //           borderTopRightRadius: 3,
+  //           borderTopLeftRadius: 3,
+  //           shadowColor: "rgba(0,0,0,1)",
+  //           shadowOpacity: 0.2,
+  //           shadowOffset: { width: 4, height: 4 },
+  //           shadowRadius: 5,
+  //           overflow: "hidden",
+  //         }}
+  //       >
+  //         <Image source={{ uri: image }} style={{ width: 250, height: 250 }} />
+  //       </View>
+  //       <Text
+  //         onPress={this._copyToClipboard}
+  //         onLongPress={this._share}
+  //         style={{ paddingVertical: 10, paddingHorizontal: 10 }}
+  //       >
+  //         {image}
+  //       </Text>
+  //     </View>
+  //   );
+  // };
 
-  _share = () => {
-    Share.share({
-      message: this.state.image,
-      title: "Check out this photo",
-      url: this.state.image,
-    });
-  };
+  // _share = () => {
+  //   Share.share({
+  //     message: this.state.image,
+  //     title: "Check out this photo",
+  //     url: this.state.image,
+  //   });
+  // };
 
-  _copyToClipboard = () => {
-    Clipboard.setStringAsync(this.state.image);
-    alert("Copied image URL to clipboard");
-  };
+  // _copyToClipboard = () => {
+  //   Clipboard.setStringAsync(this.state.image);
+  //   alert("Copied image URL to clipboard");
+  // };
 
-  _takePhoto = async () => {
-    let pickerResult = await ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
-    });
+  // _takePhoto = async () => {
+  //   let pickerResult = await ImagePicker.launchCameraAsync({
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //   });
 
-    this._handleImagePicked(pickerResult);
-  };
+  //   this._handleImagePicked(pickerResult);
+  // };
 
-  _pickImage = async () => {
-    let pickerResult = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4, 4],
-        quality: 1,
-    });
+  // _pickImage = async () => {
+  //   let pickerResult = await ImagePicker.launchImageLibraryAsync({
+  //       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //       allowsEditing: true,
+  //       aspect: [4, 4],
+  //       quality: 1,
+  //   });
 
-    console.log( pickerResult.assets[0].uri );
+//     console.log( pickerResult.assets[0].uri );
 
-    this._handleImagePicked(pickerResult.assets[0].uri);
-  };
+//     this._handleImagePicked(pickerResult.assets[0].uri);
+//   };
 
-  _handleImagePicked = async (pickerResult) => {
+//   _handleImagePicked = async (pickerResult) => {
     
-    try {
-      this.setState({ uploading: true });
+//     try {
+//       this.setState({ uploading: true });
 
-      if (!pickerResult.canceled) {
-        const uploadUrl = await uploadImageAsync(pickerResult);
-        this.setState({ image: uploadUrl });
-      }
-    } catch (e) {
-      console.log(e);
-      alert("Upload failed, sorry :(");
-    } finally {
-      this.setState({ uploading: false });
-    }
-  };
-}
+//       if (!pickerResult.canceled) {
+//         const uploadUrl = await uploadImageAsync(pickerResult);
+//         this.setState({ image: uploadUrl });
+//       }
+//     } catch (e) {
+//       console.log(e);
+//       alert("Upload failed, sorry :(");
+//     } finally {
+//       this.setState({ uploading: false });
+//     }
+//   };
+// }
 
-async function uploadImageAsync(uri) {
-  const blob = await new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function () {
-      resolve(xhr.response);
-    };
-    xhr.onerror = function (e) {
-      console.log(e);
-      reject(new TypeError("Network request failed"));
-    };
-    xhr.responseType = "blob";
-    xhr.open("GET", uri, true);
-    xhr.send(null);
-  });
-  const fileRef = ref(getStorage(), uuidv4());
-  const result = await uploadBytes(fileRef, blob);
-  blob.close();
-  return await getDownloadURL(fileRef);
+// async function uploadImageAsync(uri) {
+//   const blob = await new Promise((resolve, reject) => {
+//     const xhr = new XMLHttpRequest();
+//     xhr.onload = function () {
+//       resolve(xhr.response);
+//     };
+//     xhr.onerror = function (e) {
+//       console.log(e);
+//       reject(new TypeError("Network request failed"));
+//     };
+//     xhr.responseType = "blob";
+//     xhr.open("GET", uri, true);
+//     xhr.send(null);
+//   });
+//   const fileRef = ref(getStorage(), uuidv4());
+//   const result = await uploadBytes(fileRef, blob);
+//   blob.close();
+//   return await getDownloadURL(fileRef);
 }
