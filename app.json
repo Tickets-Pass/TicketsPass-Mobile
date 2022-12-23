@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/boleto.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "ligth",
     "splash": {
       "image": "./assets/ticketlogorotado.png",
       "resizeMode": "contain",

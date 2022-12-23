@@ -61,10 +61,8 @@ export default function Profile({ navigation }) {
         if (!result.canceled) {
             const uploadUrl = await uploadImageAsync(result.assets[0].uri);
             setImage(uploadUrl)
-            setLoad(false)
-        }else{
-            setLoad(false)
         }
+        setLoad(false)
     };
     let fecha = new Date(user.birthDate);
     fecha = fecha.toLocaleDateString();

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Button, Divider, Title } from "react-native-paper";
 import { FlatList } from "react-native-gesture-handler";
@@ -6,6 +6,7 @@ import Product from "../components/Product";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import apiUrl from "../api/url";
+
 
 export default function Cart() {
   const [loading, setLoading] = useState(true);
@@ -81,6 +82,7 @@ export default function Cart() {
       Alert.alert("Error", error.response ? error.response.data.message || error.response.data : error.message);
     }
   }
+
 
   return loading ? (
     <ActivityIndicator animating={true} style={styles.message} />

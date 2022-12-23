@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/core";
 import { useTranslation } from "react-i18next";
 
 export default function Concert({ route }) {
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   const { id } = route.params;
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
@@ -57,15 +57,7 @@ export default function Concert({ route }) {
         Alert.alert("Error", `${error.response ? error.response.data.message || error.response.data : error.message}`);
       }
     } else {
-      Alert.alert(t("alert_redir_log"), t("alert_ticket_cart"), [
-        { text: "cancel" },
-        {
-          text: "login",
-          onPress: () => {
-            navigation.navigate("Sign In");
-          },
-        },
-      ]);
+      Alert.alert(t("Error"), t("alert_ticket_cart"));
     }
   };
 
@@ -85,7 +77,7 @@ export default function Concert({ route }) {
         <Paragraph>
           <FontAwesome name="calendar" /> {dateFormatter(concert.date)}
         </Paragraph>
-        <Title style={styles.capitalize}>{concert.type === "festival" ? "Lineup" : t('art')}</Title>
+        <Title style={styles.capitalize}>{concert.type === "festival" ? "Lineup" : t("art")}</Title>
         {concert.artists.map(artist => (
           <Paragraph key={artist._id}>
             <FontAwesome name="music" /> {artist.name}
@@ -95,7 +87,7 @@ export default function Concert({ route }) {
       <Divider />
       <View>
         <View style={styles.categoryContent}>
-          <Title style={styles.categoryTitle}>{t('ticket')}</Title>
+          <Title style={styles.categoryTitle}>{t("ticket")}</Title>
           <View style={styles.row}>
             <Text style={styles.categoryName}>{concert.category.name}</Text>
             <Text>${concert.category.price} ARS</Text>
