@@ -1,15 +1,16 @@
-import { View, Text,TextInput ,TouchableOpacity,StyleSheet,Alert} from 'react-native'
+import { View, Text,TextInput ,StyleSheet,Alert, ImageBackground} from 'react-native'
 import React,{useState} from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch} from 'react-redux'
 import userActions from '../redux/actions/userAction'
-export default function SignIn({navigation}) {
+import { useTranslation } from 'react-i18next'
+import { Button } from 'react-native-paper'
 
+export default function SignIn({navigation}) {
+    const {t} = useTranslation()
     let dispatch = useDispatch()
     let {signIn} = userActions
-    let {logged} = useSelector(store=>store.userReducer)
     let [email,setEmail] = useState([])
     let[pass,setPass] = useState([])
-    console.log(logged)
     let dato ={
         email:email,
         password:pass
@@ -22,7 +23,7 @@ export default function SignIn({navigation}) {
             setEmail('')
             setPass('')
             Alert.alert(res.payload.message)
-            navigation.navigate('Home')
+            navigation.navigate('TicketsPass')
           } else{
             if(Array.isArray(res.payload.response)){
                 let text = res.payload.response.join('\n')
@@ -35,75 +36,80 @@ export default function SignIn({navigation}) {
          .catch(err => Alert.alert(err.message))
     }
 
-
-
-
     return (
-    <View style={{backgroundColor:'#f5f5f5',flex:1,padding:10}} >
-        <Text style={{fontSize:25,textAlign:'center',fontWeight:'900'}} >Sign In</Text>
-        <Text style={style.text1} >User Email</Text>
-        <TextInput keyboardType='email-address' value={email} onChangeText={item=>setEmail(item)} placeholder='Enter your user...' style={style.input} />
-        <Text style={style.text1} >Password</Text>
-        <TextInput passwordRules={true} secureTextEntry={true} placeholder='Enter your password...' value={pass} onChangeText={item=>setPass(item)} style={style.input} />
-        <TouchableOpacity style={style.buton2} ><Text style={style.textbtn} onPress={submit} >Sign In</Text></TouchableOpacity>
-        <Text style={style.text2} >Don't you have an Account?</Text>
-        <TouchableOpacity style={style.buton1} ><Text style={style.textbtn} onPress={()=>navigation.navigate('Sign Up')} >Sign UP Here!</Text></TouchableOpacity>
+    <View style={{backgroundColor:'#f5f5f5',flex:1}} >
+        <View style={style.signInContainer}>
+            <Text style={{fontSize:25,textAlign:'center',fontWeight:'bold'}} >{t('sign_in')}</Text>
+            <Text style={style.text1} >{t('email')}</Text>
+            <TextInput keyboardType='email-address' value={email} onChangeText={item=>setEmail(item)} placeholder={t('user_e')} style={style.input} />
+            <Text style={style.text1} >{t('pass')}</Text>
+            <TextInput passwordRules={true} secureTextEntry={true} placeholder={t('user_pas')} value={pass} onChangeText={item=>setPass(item)} style={style.input} />
+            <Button style={style.button} mode="contained" onPress={submit}>{t('sign_in')}</Button>
+        </View>
+        <View style={{flex: 1}}>
+        <ImageBackground source={require("../../assets/backSign.jpg")} style={style.ImageBackground}>
+            <Text style={style.text2} >{t('have_not_account')}</Text>
+            <Button style={[style.button, style.buttonSignUp]} onPress={()=>navigation.navigate('Sign up')} mode="contained" ><Text style={style.blackText}>{t('log_her')}</Text></Button>
+        </ImageBackground>
+        </View>
     </View>
     )
 }
 
 const style = StyleSheet.create({
+    signInContainer: {
+        paddingHorizontal: 10,
+        paddingTop: 10,
+    },
     text1:{
-        fontSize:18,
+        fontSize:16,
         padding:5,
-        borderBottomWidth:2,
-        borderColor:'purple',
-        marginBottom:10
+        marginTop:10
     },
     input:{
-        borderColor:'#000',
-        borderWidth:3,
+        borderColor:'#c8c8c8',
+        borderWidth: 2,
         padding:10,
-        borderRadius:25,
+        paddingHorizontal: 15,
+        borderRadius:15,
         backgroundColor:'#fff'
     },
     text2:{
-        borderBottomColor:'purple',
-        borderTopColor:'purple',
+        borderBottomColor:'white',
+        borderTopColor:'white',
         borderBottomWidth:3,
         borderTopWidth:3,
         margin:20,
         padding:10,
         textAlign:'center',
-        fontSize:20
+        fontSize:20,
+        color: 'white',
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 50
     },
-    textbtn:{
-        textAlign:'center',
-        fontSize:25,
-        fontWeight:'500',
-        color:'#fff'
-    },
-    buton1:{
-        backgroundColor:'purple',
-        height:60,
-        width:250,
-        borderRadius:25,
-        alignSelf:'center',
-        marginTop:20,
-        borderColor:'#aaa',
-        borderWidth:3,
-        padding:5
-    },
-    buton2:{
-        backgroundColor:'purple',
+    button:{
         width:200,
-        height:60,
         borderRadius:25,
         alignSelf:'center',
-        marginTop:50,
-        borderColor:'#aaa',
-        borderWidth:3,
+        marginVertical: 30,
         padding:5,
-        marginBottom:10
+    },
+    buttonSignUp: {
+        backgroundColor: 'white',
+        marginBottom: 80
+    },
+    ImageBackground: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        justifyContent: 'flex-end',
+        resizeMode: 'cover'
+    },
+    blackText: {
+        color: 'black'
     }
 })

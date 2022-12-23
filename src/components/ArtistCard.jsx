@@ -1,15 +1,16 @@
 import { StyleSheet, Image, Pressable } from 'react-native'
 import React from 'react'
 import { Card, Divider, Title } from 'react-native-paper'
+import { useTranslation } from 'react-i18next'
 
 export default function ArtistCard({item, navigation}) {
+  const {t} = useTranslation()
   return (
-    <Pressable onPress={() => navigation.navigate("Artist", {id: item._id})}>
+    <Pressable onPress={() => navigation.navigate(t('art'), {id: item._id})}>
     <Card style={styles.card}>
       <Image style={styles.image} source={{uri: item.photo}} />
       <Card.Content>
       <Title style={styles.title}>{item.name}</Title>
-      <Divider style={styles.divider} />
       </Card.Content>
     </Card>
     </Pressable>
@@ -19,6 +20,12 @@ export default function ArtistCard({item, navigation}) {
 const styles = StyleSheet.create({
   card: {
     alignItems: 'center',
+    border: 'none',
+    backgroundColor: 'white',
+    elevation: 0,
+    shadowColor: 'transparent',
+    color: 'white',
+    surfaceColor: 'white',
   },
   image: {
     width: 200,
@@ -34,8 +41,5 @@ const styles = StyleSheet.create({
   title: {
     textTransform: 'capitalize',
     textAlign: 'center'
-  },
-  divider: {
-    marginVertical: 5
   },
 })
